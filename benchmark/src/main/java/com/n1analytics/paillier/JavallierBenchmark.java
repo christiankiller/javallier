@@ -9,26 +9,12 @@ import java.util.Random;
 public class JavallierBenchmark {
    
   public static final int BITS = 1024; 
-  public final int KEYS = 1000;
-  public final int NUMBERS = 10000;
 
   public static PaillierPrivateKey KEY = PaillierPrivateKey.create(BITS);
   public static PaillierContext context = KEY.getPublicKey().createSignedContext();
 
-  public final EncodedNumber encodedNumbers[] = new EncodedNumber[NUMBERS];
-  public final EncodedNumber encodedNumbersSE[] = new EncodedNumber[NUMBERS];
-  public final EncryptedNumber encryptedNumbers[] = new EncryptedNumber[NUMBERS];
-  public final EncryptedNumber encryptedNumbersSE[] = new EncryptedNumber[NUMBERS];
-  public final double[] doubleNumbers = new double[NUMBERS];
-  
   public static Random rnd = new Random();
 
-  public String currentTestName;
-  public long currentTestRepititions;
-  public long currentTestStartTime;
-  public long currentTestEndTime;
-  
-  
   @Benchmark public PaillierPrivateKey keyGeneration(){
     return PaillierPrivateKey.create(BITS);
   }
