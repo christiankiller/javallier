@@ -418,7 +418,7 @@ public final class EncryptedNumber {
   }
 
   /**
-   * Return a byte array representing the underlying ciphertext.
+   * Return a big integer representing the underlying ciphertext.
    *
    * WARNING: This method may return unencrypted information! Under no
    * circumstances should the return value be sent anywhere.
@@ -428,8 +428,8 @@ public final class EncryptedNumber {
    * almost all circumstances you should use calculateCiphertext()
    * instead.
    */
-  public byte[] toByteArrayUnsafe() {
-    return ciphertext.toByteArray();
+  public BigInteger getCiphertext() {
+    return ciphertext;
   }
 
   /**
