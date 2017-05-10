@@ -17,15 +17,15 @@ public class JavallierBenchmark {
   @State(Scope.Benchmark)
   public static class DifferentKeySize {
     @Param({"128", "256", "512", "1024", "2048", "4096"})
-    public int size;
+    int size;
 
-    public PaillierPrivateKey KEY;
-    public PaillierContext context;
-    public double num1;
-    public double num2;
-    public EncryptedNumber encryptedNumber1;
-    public EncryptedNumber encryptedNumber2;
-    public EncodedNumber encodedNumber2;
+    PaillierPrivateKey KEY;
+    static PaillierContext context;
+    double num1;
+    double num2;
+    EncryptedNumber encryptedNumber1;
+    EncryptedNumber encryptedNumber2;
+    EncodedNumber encodedNumber2;
 
     public static Random rnd = new Random();
 
@@ -38,6 +38,10 @@ public class JavallierBenchmark {
       encryptedNumber1 = context.encrypt(num1);
       encryptedNumber2 = context.encrypt(num2);
       encodedNumber2 = context.encode(num2);
+    }
+
+    static EncryptedNumber additiveInverse(EncryptedNumber encryptedNumber1) {
+      return context.additiveInverse(encryptedNumber1);
     }
 
     static PaillierPrivateKey createKey(int size) {
@@ -101,6 +105,11 @@ public class JavallierBenchmark {
     @Benchmark
     public void encryptedMultiplyEncoded(Blackhole bh) {
       bh.consume(multiplyEncryptedEncoded(encryptedNumber1, encodedNumber2));
+    }
+
+    @Benchmark
+    public void encryptedAdditiveInverse(Blackhole bh) {
+      bh.consume(additiveInverse(encryptedNumber1));
     }
   }
 

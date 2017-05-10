@@ -13,12 +13,12 @@
  */
 package com.n1analytics.paillier.util;
 
-import com.squareup.jnagmp.Gmp;
-
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.squareup.jnagmp.Gmp;
 
 /**
  * A class containing the common methods for {@code BigInteger} manipulation, including:
@@ -64,9 +64,31 @@ public class BigIntegerUtil {
     try{
       Gmp.checkLoaded();
       return true;
-    }catch(Exception e){
+    }catch(Error e){
       logger.log(Level.WARNING, "can't load Gmp library. Falling back to native Java for modPow. Unfortunately, that's a 'lot' slower.", e);
       return  false;
+    }
+  }
+  
+  /**
+   * computes a modular exponentiation. It will call the GMP library, if available on this system.
+   * If GMP is available, it will use 'mpz_powm_sec' which is side channel attack resistant.
+   * Use this function if you want to protect the exponent from side channel attacks.
+   * @param base of the modular exponentiation
+   * @param exponent of the exponentiation
+   * @param modulus
+   * @return (base ^ exponent) mod modulus
+   */
+  public static BigInteger modPowSecure(BigInteger base, BigInteger exponent, BigInteger modulus) {
+    if (USE_GMP) {
+      return exponent.signum() < 0 // Gmp library can't handle negative exponents
+          ? modInverse(Gmp.modPowSecure(base, exponent.negate(), modulus), modulus)
+          : Gmp.modPowSecure(base, exponent, modulus);
+    } else {
+      logger.log(Level.WARNING,
+          "Gmp library is not available. Falling back to native Java for modPow. This does not "
+          + "provide protection against timing attacks!");
+      return base.modPow(exponent, modulus);
     }
   }
   
@@ -78,28 +100,30 @@ public class BigIntegerUtil {
    * @param modulus
    * @return (base ^ exponent) mod modulus
    */
-  public static BigInteger modPow(BigInteger base, BigInteger exponent, BigInteger modulus){
-    if(USE_GMP){
-      return Gmp.modPowSecure(base, exponent, modulus);
-    }else{
+  public static BigInteger modPow(BigInteger base, BigInteger exponent, BigInteger modulus) {
+    if (USE_GMP) {
+      return exponent.signum() < 0 //Gmp library can't handle negative exponents
+          ? modInverse(Gmp.modPowInsecure(base, exponent.negate(), modulus), modulus)
+          : Gmp.modPowInsecure(base, exponent, modulus);
+    } else {
       return base.modPow(exponent, modulus);
     }
   }
 
   /**
-   * Computes the multiplicitive inverse of `a` in the integers, modular `b`.
+   * Computes the multiplicitive inverse of `a` in the integers, modulo `b`.
    *
    * @param a the number to invert
    * @param b the modulus
    * @throws ArithmeticException if the inverse doesn't exist
    * @return x, where a * x == 1 mod b
    */
-  public static BigInteger invert(BigInteger a, BigInteger b) throws ArithmeticException {
-//    if(USE_GMP){
-//      // TODO use gmp if available
-//      //return Gmp.invert(a, b);
-//    } else {
-    return a.modInverse(b);
+  public static BigInteger modInverse(BigInteger a, BigInteger b) throws ArithmeticException {
+    if(USE_GMP){
+      return Gmp.modInverse(a, b);
+    } else {
+      return a.modInverse(b);
+    }
   }
 
   /**

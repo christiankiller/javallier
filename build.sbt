@@ -15,13 +15,13 @@ lazy val root = project.in(file(".")).
   settings(commonSettings: _*)
   .settings(
     name := "javallier",
-    version := "0.5.0",
+    version := "0.6.0",
     description := "A Java library for Paillier partially homomorphic encryption.",
     libraryDependencies ++= Seq(
       "ch.qos.logback" % "logback-classic" % "1.0.13",
       "commons-cli" % "commons-cli" % "1.3.1",
       "commons-codec" % "commons-codec" % "1.10",
-      "com.squareup.jnagmp" % "jnagmp" % "1.0.1",
+      "com.squareup.jnagmp" % "jnagmp" % "2.0.0",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.7.0",
       "com.novocode" % "junit-interface" % "0.11" % Test
     ),
@@ -32,7 +32,7 @@ lazy val benchmark = project.in(file("benchmark")).
   settings(commonSettings: _*).settings(
     name := "javallier-benchmark",
     libraryDependencies ++= Seq(
-      "com.squareup.jnagmp" % "jnagmp" % "1.0.1"
+      "com.squareup.jnagmp" % "jnagmp" % "2.0.0"
       )
   ).dependsOn(root).
   enablePlugins(JmhPlugin)
@@ -47,24 +47,21 @@ publishTo := {
 
 pomExtra := (
   <scm>
-    <url>git@github.com:NICTA/javallier.git</url>
-    <connection>scm:git:git@github.com:NICTA/javallier.git</connection>
+    <url>git@github.com:n1analytics/javallier.git</url>
+    <connection>scm:git:git@github.com:n1analytics/javallier.git</connection>
   </scm>
   <developers>
     <developer>
       <id>mpnd</id>
       <name>Mentari Djatmiko</name>
-      <url>https://www.nicta.com.au/people/mDjatmiko/</url>
     </developer>
     <developer>
       <id>maxott</id>
       <name>Max Ott</name>
-      <url>https://www.nicta.com.au/people/mott/</url>
     </developer>
     <developer>
       <id>hardbyte</id>
       <name>Brian Thorne</name>
-      <url>https://www.nicta.com.au/people/bthorne/</url>
     </developer>
     <developer>
       <id>wilko77</id>
@@ -84,3 +81,13 @@ testOptions in Test += Tests.Setup(classLoader =>
     .invoke(null, "ROOT"))
 
 jacoco.settings
+
+assemblyJarName in assembly := "javallier.jar"
+
+test in assembly := {}
+
+mainClass in assembly := Some("com.n1analytics.paillier.cli.Main")
+
+import sbtassembly.AssemblyPlugin.defaultShellScript
+
+assemblyOption in assembly := (assemblyOption in assembly).value.copy(prependShellScript = Some(defaultShellScript))
