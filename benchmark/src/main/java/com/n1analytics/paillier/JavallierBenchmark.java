@@ -132,16 +132,4 @@ public class JavallierBenchmark {
     return ds.d1*ds.d2;
   }
 
-//  // The following main method is
-//  public static void main(String[] args) throws RunnerException {
-//    Options opt = new OptionsBuilder()
-//            .include(JavallierBenchmark.class.getSimpleName())
-//            .warmupIterations(5)
-//            .measurementIterations(5)
-//            .forks(3)
-//            .build();
-//
-//    new Runner(opt).run();
-//  }
-
 }
