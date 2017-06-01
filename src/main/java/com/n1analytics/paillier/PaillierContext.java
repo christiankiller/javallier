@@ -14,6 +14,7 @@
 package com.n1analytics.paillier;
 
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -61,7 +62,7 @@ import com.n1analytics.paillier.util.HashChain;
  * Note you can create a PaillierContext directly from the create methods
  * on a PaillierPublicKey e.g., {@link PaillierPublicKey#createSignedContext()}.
  */
-public class PaillierContext {
+public class PaillierContext implements Serializable {
 
   /**
    * The default base value.

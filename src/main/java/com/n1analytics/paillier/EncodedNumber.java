@@ -13,6 +13,7 @@
  */
 package com.n1analytics.paillier;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -29,7 +30,7 @@ import com.n1analytics.paillier.util.HashChain;
  *     <li>To perform arithmetic operations; addition, subtraction, limited multiplication and limited division.</li>
  * </ul>
  */
-public final class EncodedNumber {
+public final class EncodedNumber implements Serializable {
 
   /**
    * The Paillier context used to encode this number.

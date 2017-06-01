@@ -1,5 +1,6 @@
 package com.n1analytics.paillier;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -8,7 +9,7 @@ import java.math.RoundingMode;
 import com.n1analytics.paillier.util.BigIntegerUtil;
 import com.n1analytics.paillier.util.HashChain;
 
-public class StandardEncodingScheme implements EncodingScheme{
+public class StandardEncodingScheme implements EncodingScheme, Serializable {
   
   //Source: http://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.2.3
   private static final int DOUBLE_MANTISSA_BITS = 53;

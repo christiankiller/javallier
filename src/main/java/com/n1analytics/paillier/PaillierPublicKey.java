@@ -13,6 +13,7 @@
  */
 package com.n1analytics.paillier;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 
 import com.n1analytics.paillier.util.BigIntegerUtil;
@@ -33,7 +34,7 @@ import static com.n1analytics.paillier.util.BigIntegerUtil.randomPositiveNumber;
  * Besides storing Paillier public key, the class has methods to generate the corresponding encoding
  * scheme (i.e., Paillier context).
  */
-public final class PaillierPublicKey {
+public final class PaillierPublicKey implements Serializable {
 
   /**
    * The modulus (n) of the public key.

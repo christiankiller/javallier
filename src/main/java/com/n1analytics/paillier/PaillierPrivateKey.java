@@ -15,6 +15,7 @@ package com.n1analytics.paillier;
 
 import com.n1analytics.paillier.util.BigIntegerUtil;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -88,7 +89,7 @@ import java.security.SecureRandom;
  *   </li>
  * </ul>
  */
-public final class PaillierPrivateKey {
+public final class PaillierPrivateKey implements Serializable {
 
   /**
    * A serializer interface for {@code PaillierPrivateKey}.
