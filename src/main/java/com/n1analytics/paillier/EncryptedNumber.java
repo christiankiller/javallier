@@ -13,18 +13,12 @@
  */
 package com.n1analytics.paillier;
 
-import com.n1analytics.paillier.util.HashChain;
-
-import sun.misc.Unsafe;
-
-import java.io.Externalizable;
 import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
+
+import com.n1analytics.paillier.util.HashChain;
 
 /**
  * A class representing encrypted number. The attributes of this class are:
