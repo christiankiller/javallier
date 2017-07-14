@@ -15,6 +15,14 @@ package com.n1analytics.paillier;
 
 import com.n1analytics.paillier.util.HashChain;
 
+import sun.misc.Unsafe;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
 
@@ -43,6 +51,8 @@ import java.math.BigInteger;
  * </ul>
  */
 public final class EncryptedNumber implements Serializable {
+  private static final long serialVersionUID = -3072870794406648231L;
+
   /**
    * A serializer interface for {@code EncryptedNumber}.
    */
@@ -122,7 +132,7 @@ public final class EncryptedNumber implements Serializable {
   public PaillierContext getContext() {
     return context;
   }
-  
+
   /**
    * Obfuscates this number only if necessary.
    * @return a version of this encrypted number which is guaranteed to be safe.
@@ -354,15 +364,15 @@ public final class EncryptedNumber implements Serializable {
   // TODO Issue #10
     /*
     public EncryptedNumber divide(EncodedNumber other) {
-    	return context.divide(this, other);
+      return context.divide(this, other);
     }
 
     public EncryptedNumber divide(Number other) {
-    	return divide(context.encode(other));
+      return divide(context.encode(other));
     }
 
     public EncryptedNumber divide(BigInteger other) {
-    	return divide(context.encode(other));
+      return divide(context.encode(other));
     }
     */
 
@@ -417,4 +427,14 @@ public final class EncryptedNumber implements Serializable {
             context.equals(o.context) &&
             ciphertext.equals(o.ciphertext));
   }
+
+  // Ensure that the serialized object is safe
+  private void writeObject(ObjectOutputStream out) throws IOException  {
+    if (this.isSafe) {
+      out.defaultWriteObject();
+    } else {
+      out.writeObject(obfuscate());
+    }
+  }
+
 }
