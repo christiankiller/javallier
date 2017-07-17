@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.function.Supplier;
 
 import com.n1analytics.paillier.util.HashChain;
 
@@ -173,7 +174,7 @@ public final class EncryptedNumber implements Serializable {
   }
 
   /**
-   * Decrypts this {@code EncryptedNumber} using a private key. See
+   * Decrypt this {@code EncryptedNumber} using a private key. See
    * {@link com.n1analytics.paillier.PaillierPrivateKey#decrypt(EncryptedNumber)} for more details.
    *
    * @param key private key to decrypt.
@@ -181,6 +182,18 @@ public final class EncryptedNumber implements Serializable {
    */
   public EncodedNumber decrypt(PaillierPrivateKey key) {
     return key.decrypt(this);
+  }
+
+  /**
+   * Decrypt this {@code EncryptedNumber} using a private key to be obtained from
+   * {@code keySupplier} first. See
+   * {@link com.n1analytics.paillier.PaillierPrivateKey#decrypt(EncryptedNumber)} for more details.
+   *
+   * @param key private key to decrypt.
+   * @return the decryption result.
+   */
+  public EncodedNumber decrypt(Supplier<PaillierPrivateKey> keySupplier) {
+    return decrypt(keySupplier.get());
   }
 
   /**
