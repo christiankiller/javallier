@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.function.Supplier;
 
 import com.n1analytics.paillier.util.HashChain;
 
@@ -47,6 +46,14 @@ import com.n1analytics.paillier.util.HashChain;
  */
 public final class EncryptedNumber implements Serializable {
   private static final long serialVersionUID = -3072870794406648231L;
+
+  /**
+   * Backport Java8 interface to make library build for older versions as well.
+   */
+  @FunctionalInterface
+  public interface Supplier<T> {
+    T get();
+  }
 
   /**
    * A serializer interface for {@code EncryptedNumber}.
