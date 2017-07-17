@@ -50,7 +50,6 @@ public final class EncryptedNumber implements Serializable {
   /**
    * Backport Java8 interface to make library build for older versions as well.
    */
-  @FunctionalInterface
   public interface Supplier<T> {
     T get();
   }
