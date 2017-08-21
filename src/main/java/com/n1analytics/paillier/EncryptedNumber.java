@@ -195,7 +195,7 @@ public final class EncryptedNumber implements Serializable {
    * {@code keySupplier} first. See
    * {@link com.n1analytics.paillier.PaillierPrivateKey#decrypt(EncryptedNumber)} for more details.
    *
-   * @param key private key to decrypt.
+   * @param keySupplier private key to decrypt.
    * @return the decryption result.
    */
   public EncodedNumber decrypt(Supplier<PaillierPrivateKey> keySupplier) {
