@@ -31,6 +31,7 @@ import com.n1analytics.paillier.util.HashChain;
  * </ul>
  */
 public final class EncodedNumber implements Serializable {
+  private static final long serialVersionUID = -6907742701395845137L;
 
   /**
    * The Paillier context used to encode this number.
@@ -103,7 +104,7 @@ public final class EncodedNumber implements Serializable {
   public boolean isValid() {
     return context.isValid(this);
   }
-  
+
   /**
    * Returns the signum function of this EncodedNumber.
    * @return -1, 0 or 1 as the value of this EncodedNumber is negative, zero or positive.
@@ -168,7 +169,7 @@ public final class EncodedNumber implements Serializable {
   public long decodeLong() throws ArithmeticException {
     return context.decodeLong(this);
   }
-  
+
   public BigDecimal decodeBigDecimal() throws ArithmeticException {
     return context.decodeBigDecimal(this);
   }

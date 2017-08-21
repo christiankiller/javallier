@@ -67,7 +67,7 @@ import java.security.SecureRandom;
  *     function which do not depend on the ciphertext.
  *   </li>
  * </ul>
- * 
+ *
  * Examples:
  * <ul>
  *   <li>
@@ -88,6 +88,13 @@ import java.security.SecureRandom;
  *     </p>
  *   </li>
  * </ul>
+ *
+ * <b>NOTE:</b> We specifically did NOT make this class serializable as it may lead to
+ * unintended consequences. The only place a private key is used is in decoding
+ * an encrypted number. If that operation needs to be performed remotely, we provide
+ * a decrypt method ({@link com.n1analytics.paillier.EncryptedNumber#decrypt(Supplier)})
+ * with a {@link java.util.function.Supplier} parameter which may
+ * produce the private key in a more secure manner.
  */
 public final class PaillierPrivateKey implements Serializable {
 
@@ -180,7 +187,7 @@ public final class PaillierPrivateKey implements Serializable {
   /**
    * Constructs a Paillier private key given an associated public key and the
    * two prime numbers p and q of the factorization of the public key's modulus.
-   * 
+   *
    * @param publicKey associated with this private key.
    * @param p prime p.
    * @param q prime q.
@@ -225,7 +232,7 @@ public final class PaillierPrivateKey implements Serializable {
       p = BigInteger.probablePrime(primeLength, random);
       do {
         q = BigInteger.probablePrime(primeLength, random);
-      } while (p.equals(q)); //p and q must not be equal 
+      } while (p.equals(q)); //p and q must not be equal
       modulus = p.multiply(q);
     } while (modulus.bitLength() != modulusLength);
 
@@ -253,14 +260,14 @@ public final class PaillierPrivateKey implements Serializable {
     if (!publicKey.equals(encrypted.getContext().getPublicKey())) {
       throw new PaillierKeyMismatchException();
     }
-    
+
     if(encrypted.getContext() instanceof MockPaillierContext){
       return new EncodedNumber(encrypted.getContext(), encrypted.ciphertext, encrypted.getExponent());
     }
     return new EncodedNumber(encrypted.getContext(), raw_decrypt(encrypted.ciphertext),
         encrypted.getExponent());
   }
-  
+
   /**
    * Implementation of the decryption function of the Paillier encryption scheme.
    * Returns the plain text of a given cipher text.
