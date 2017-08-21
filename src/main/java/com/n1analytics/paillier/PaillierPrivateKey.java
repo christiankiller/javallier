@@ -15,7 +15,6 @@ package com.n1analytics.paillier;
 
 import com.n1analytics.paillier.util.BigIntegerUtil;
 
-import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
