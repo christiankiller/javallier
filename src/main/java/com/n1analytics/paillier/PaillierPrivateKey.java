@@ -96,7 +96,7 @@ import java.security.SecureRandom;
  * with a {@link java.util.function.Supplier} parameter which may
  * produce the private key in a more secure manner.
  */
-public final class PaillierPrivateKey implements Serializable {
+public final class PaillierPrivateKey {
 
   /**
    * A serializer interface for {@code PaillierPrivateKey}.
